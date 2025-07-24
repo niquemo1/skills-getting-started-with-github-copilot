@@ -17,14 +17,35 @@ document.addEventListener("DOMContentLoaded", () => {
       Object.entries(activities).forEach(([name, details]) => {
         const activityCard = document.createElement("div");
         activityCard.className = "activity-card";
+        activityCard.style.border = "1px solid #b3c6ff";
+        activityCard.style.borderRadius = "8px";
+        activityCard.style.padding = "16px";
+        activityCard.style.marginBottom = "18px";
+        activityCard.style.background = "#f7faff";
 
         const spotsLeft = details.max_participants - details.participants.length;
 
+        // Participants section
+        let participantsHTML = "";
+        if (details.participants.length > 0) {
+          participantsHTML = `
+            <div class="participants-section" style="margin-top: 12px;">
+              <strong>Participants:</strong>
+              <ul style="margin: 6px 0 0 18px; padding: 0;">
+                ${details.participants.map(email => `<li style="margin-bottom:2px;">${email}</li>`).join("")}
+              </ul>
+            </div>
+          `;
+        } else {
+          participantsHTML = `<div class="participants-section" style="margin-top: 12px; color: #888;"><em>No participants yet.</em></div>`;
+        }
+
         activityCard.innerHTML = `
-          <h4>${name}</h4>
+          <h4 style="margin-top:0;">${name}</h4>
           <p>${details.description}</p>
           <p><strong>Schedule:</strong> ${details.schedule}</p>
           <p><strong>Availability:</strong> ${spotsLeft} spots left</p>
+          ${participantsHTML}
         `;
 
         activitiesList.appendChild(activityCard);
